@@ -6,21 +6,33 @@ import {
   UserAvatar,
   UserButton,
   UserProfile,
+  useUser,
 } from "@clerk/clerk-react";
-import "./App.css";
+
+import { Toaster } from "react-hot-toast";
+import { Route, Routes, useNavigate } from "react-router";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const { isSignedIn, isLoaded } = useUser();
+  const navigate = useNavigate();
+
+  if (!isLoaded) return null;
+
   return (
     <>
-      <h1>Welcome to Talent IQ</h1>
-      <SignedOut>
-        <SignInButton mode="model" />
-      </SignedOut>
-      <SignedIn>
-        <SignOutButton mode="model">Sign Out</SignOutButton>
-        <UserAvatar></UserAvatar>
-      </SignedIn>
-      <UserButton />
+      <Routes>
+        <Route
+          path="/"
+          element={!isSignedIn ? <Home /> : navigate("/dashboard")}
+        />
+        <Route
+          path="/dashboard"
+          element={isSignedIn ? <Dashboard /> : navigate("/")}
+        />
+      </Routes>
+      <Toaster />
     </>
   );
 }
