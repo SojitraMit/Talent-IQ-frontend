@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from "react-router";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProblemsPage from "./pages/ProblemsPage";
+import ProblemPage from "./pages/ProblemPage";
 
 function App() {
   const { isSignedIn, isLoaded } = useUser();
@@ -26,6 +27,10 @@ function App() {
         <Route
           path="/problems"
           element={isSignedIn ? <ProblemsPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/problem/:id"
+          element={isSignedIn ? <ProblemPage /> : <Navigate to="/" />}
         />
       </Routes>
 
