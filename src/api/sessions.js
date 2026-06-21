@@ -2,32 +2,32 @@ import axiosInstance from "../lib/axios";
 
 export const sessionApi = {
   createSession: async (data) => {
-    const response = await axiosInstance.post("/session", data);
+    const response = await axiosInstance.post("/api/session", data);
     console.log(response);
     return response.data;
   },
   getActiveSessions: async () => {
-    const response = await axiosInstance.get("/session/active");
+    const response = await axiosInstance.get("/api/session/active");
     return response.data;
   },
   getMyRecentSessions: async () => {
-    const response = await axiosInstance.get("/session/my-recent");
+    const response = await axiosInstance.get("/api/session/my-recent");
     return response.data;
   },
   getSessionById: async (id) => {
-    const response = await axiosInstance.get(`/session/${id}`);
+    const response = await axiosInstance.get(`/api/session/${id}`);
     return response.data;
   },
   joinSession: async (id) => {
-    const response = await axiosInstance.post(`/session/${id}/join`);
+    const response = await axiosInstance.post(`/api/session/${id}/join`);
     return response.data;
   },
   endSession: async (id) => {
-    const response = await axiosInstance.post(`/session/${id}/end`);
+    const response = await axiosInstance.post(`/api/session/${id}/end`);
     return response.data;
   },
   getStreamToken: async () => {
-    const response = await axiosInstance.get(`/chat/token`);
+    const response = await axiosInstance.get(`/api/chat/token`);
     return response.data;
   },
 };

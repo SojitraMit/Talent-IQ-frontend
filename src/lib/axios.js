@@ -1,10 +1,8 @@
 import axios from "axios";
 
 const rawBase = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
-// Ensure the API base contains `/api` so relative endpoints like `/session` resolve correctly.
-const baseURL = rawBase.includes("/api")
-  ? rawBase.replace(/\/$/, "")
-  : rawBase.replace(/\/$/, "") + "/api";
+// Strip any trailing slash and remove an existing /api path so we keep a host-only baseURL.
+const baseURL = rawBase.replace(/\/$/, "").replace(/\/api$/i, "");
 
 const axiosInstance = axios.create({
   baseURL,
