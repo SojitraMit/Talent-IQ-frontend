@@ -1,6 +1,8 @@
-import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes, Navigate } from "react-router";
+import axiosInstance from "./lib/axios";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProblemsPage from "./pages/ProblemsPage";
@@ -9,6 +11,26 @@ import SessionPage from "./pages/SessionPage";
 
 function App() {
   const { isSignedIn, isLoaded } = useUser();
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    const interceptor = axiosInstance.interceptors.request.use(
+      async (config) => {
+        const token = await getToken();
+        if (token) {
+          config.headers = {
+            ...config.headers,
+            Authorization: `Bearer ${token}`,
+          };
+        }
+        return config;
+      },
+    );
+
+    return () => {
+      axiosInstance.interceptors.request.eject(interceptor);
+    };
+  }, [getToken]);
 
   if (!isLoaded) return null;
 
